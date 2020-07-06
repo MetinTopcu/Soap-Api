@@ -1,4 +1,4 @@
-package com.apinizer.example.soap;
+package com.apinizer.example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
