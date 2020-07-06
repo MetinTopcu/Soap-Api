@@ -5,5 +5,5 @@
 // Generated on: 2017.10.04 at 09:39:10 PM IST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.howtodoinjava.com/xml/school", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.apinizer.com/xml/school", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package com.apinizer.example.xml;

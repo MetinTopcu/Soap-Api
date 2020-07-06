@@ -18,29 +18,16 @@ public class StudentRepository {
 	public void initData() {
 		
 		Student student = new Student();
-		student.setName("Sajal");
+		student.setName("Apinizer");
 		student.setStandard(5);
-		student.setAddress("Pune");
+		student.setAddress("Demo");
 		students.put(student.getName(), student);
 		
 		student = new Student();
-		student.setName("Kajal");
+		student.setName("Pruvasoft");
 		student.setStandard(5);
-		student.setAddress("Chicago");
+		student.setAddress("Bilkent");
 		students.put(student.getName(), student);
-		
-		student = new Student();
-		student.setName("Lokesh");
-		student.setStandard(6);
-		student.setAddress("Delhi");
-		students.put(student.getName(), student);
-		
-		student = new Student();
-		student.setName("Sukesh");
-		student.setStandard(7);
-		student.setAddress("Noida");
-		students.put(student.getName(), student);
-		
 		
 	}
 
