@@ -23,7 +23,7 @@ public class Config extends WsConfigurerAdapter {
 		return new ServletRegistrationBean(servlet, "/service/*");
 	}
 
-	@Bean(name = "studentDetailsWsdl")
+	@Bean(name = "student")
 	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema schema) {
 		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
 		wsdl11Definition.setPortTypeName("StudentDetailsPort");

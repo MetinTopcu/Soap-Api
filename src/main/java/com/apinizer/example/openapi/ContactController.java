@@ -22,6 +22,7 @@ import java.util.List;
 @RequestMapping("/openapi")
 @Tag(name = "contact", description = "the Contact API")
 public class ContactController {
+
     @Operation(summary = "Find Contacts by name", description = "Name search by %name% format", tags = {"contact"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation",
@@ -30,6 +31,7 @@ public class ContactController {
     public ResponseEntity<List<Contact>> findAll(
             @Parameter(description = "Page number, default is 1") @RequestParam(value = "page", defaultValue = "1") int pageNumber,
             @Parameter(description = "Name of the contact for search.") @RequestParam(required = false) String name) {
+
         return null;
     }
 
