@@ -12,13 +12,14 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.Date;
 
 
 /**
  * <p>Java class for Student complex type.
- * 
+ *
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ *
  * <pre>
  * &lt;complexType name="Student">
  *   &lt;complexContent>
@@ -27,19 +28,19 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="name" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="standard" type="{http://www.w3.org/2001/XMLSchema}int"/>
  *         &lt;element name="address" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}date"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Student", propOrder = {
-    "name",
-    "standard",
-    "address"
+        "name",
+        "standard",
+        "address",
+        "date"
 })
 public class Student {
 
@@ -48,67 +49,36 @@ public class Student {
     protected int standard;
     @XmlElement(required = true)
     protected String address;
+    protected Date date;
 
-    /**
-     * Gets the value of the name property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public String getName() {
         return name;
     }
 
-    /**
-     * Sets the value of the name property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
     public void setName(String value) {
         this.name = value;
     }
 
-    /**
-     * Gets the value of the standard property.
-     * 
-     */
     public int getStandard() {
         return standard;
     }
 
-    /**
-     * Sets the value of the standard property.
-     * 
-     */
     public void setStandard(int value) {
         this.standard = value;
     }
 
-    /**
-     * Gets the value of the address property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
     public String getAddress() {
         return address;
     }
 
-    /**
-     * Sets the value of the address property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
     public void setAddress(String value) {
         this.address = value;
     }

@@ -1,8 +1,9 @@
 package com.apinizer.example.service;
 
 import java.io.Serializable;
+import java.util.Date;
 
-public class User implements Serializable{
+public class User implements Serializable {
 
     private long id;
 
@@ -11,16 +12,18 @@ public class User implements Serializable{
     private int age;
 
     private double salary;
+    private Date date;
 
-    public User(){
-        id=0;
+    public User() {
+        id = 0;
     }
 
-    public User(long id, String name, int age, double salary){
+    public User(long id, String name, int age, double salary, Date date) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.salary = salary;
+        this.date = date;
     }
 
     public long getId() {
@@ -53,6 +56,14 @@ public class User implements Serializable{
 
     public void setSalary(double salary) {
         this.salary = salary;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     @Override

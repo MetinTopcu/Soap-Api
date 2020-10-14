@@ -27,6 +27,7 @@
             <xs:element name="name" type="xs:string"/>
             <xs:element name="standard" type="xs:int"/>
             <xs:element name="address" type="xs:string"/>
+            <xs:element name="date" type="xs:date"/>
         </xs:sequence>
     </xs:complexType>
     

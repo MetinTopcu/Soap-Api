@@ -1,6 +1,7 @@
 package com.apinizer.example.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -69,10 +70,11 @@ public class UserService {
 
     private static List<User> populateDummyUsers(){
         List<User> users = new ArrayList<User>();
-        users.add(new User(counter.incrementAndGet(),"Sam",30, 70000));
-        users.add(new User(counter.incrementAndGet(),"Tom",40, 50000));
-        users.add(new User(counter.incrementAndGet(),"Jerome",45, 30000));
-        users.add(new User(counter.incrementAndGet(),"Silvia",50, 40000));
+        users.add(new User(counter.incrementAndGet(),"Apinizer",30, 70000, new Date()));
+        users.add(new User(counter.incrementAndGet(),"Sam",30, 70000, new Date()));
+        users.add(new User(counter.incrementAndGet(),"Tom",40, 50000, new Date()));
+        users.add(new User(counter.incrementAndGet(),"Jerome",45, 30000, new Date()));
+        users.add(new User(counter.incrementAndGet(),"Silvia",50, 40000, new Date()));
         return users;
     }
 
