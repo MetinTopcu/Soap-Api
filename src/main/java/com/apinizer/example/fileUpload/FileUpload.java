@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 @RestController
 public class FileUpload {
 
-    private static final String UPLOADED_FOLDER = "C:\\Users\\MHY\\Desktop\\";
+    private static final String UPLOADED_FOLDER = "/uploadedFiles";
     private static final String RESPONSE_FAIL = "{\"result\":\"FAIL\" }";
 
     // ---------------- HELLO APIs ----------------

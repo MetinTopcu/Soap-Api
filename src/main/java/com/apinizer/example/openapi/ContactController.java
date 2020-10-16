@@ -1,6 +1,6 @@
 package com.apinizer.example.openapi;
 
-import com.apinizer.example.service.User;
+import com.apinizer.example.service.CustomErrorType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -9,19 +9,28 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URISyntaxException;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
 @RequestMapping("/openapi")
 @Tag(name = "contact", description = "the Contact API")
 public class ContactController {
+
+    public static final Logger logger = LoggerFactory.getLogger(ContactController.class);
+
+    @Autowired
+    ContactService contactService; //Service which will do all data retrieval/manipulation work
+
 
     @Operation(summary = "Find Contacts by name", description = "Name search by %name% format", tags = {"contact"})
     @ApiResponses(value = {
@@ -32,8 +41,15 @@ public class ContactController {
             @Parameter(description = "Page number, default is 1") @RequestParam(value = "page", defaultValue = "1") int pageNumber,
             @Parameter(description = "Name of the contact for search.") @RequestParam(required = false) String name) {
 
-        return null;
+        List<Contact> users = contactService.findAllContacts();
+        if (users.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Contact>>(users, HttpStatus.OK);
     }
+
+    // -------------------Retrieve Single User------------------------------------------
+
 
     @Operation(summary = "Find contact by ID", description = "Returns a single contact", tags = {"contact"})
     @ApiResponses(value = {
@@ -41,11 +57,48 @@ public class ContactController {
                     content = @Content(schema = @Schema(implementation = Contact.class))),
             @ApiResponse(responseCode = "404", description = "Contact not found")})
     @GetMapping(value = "/contacts/{contactId}", produces = {"application/json", "application/xml"})
-    public ResponseEntity<Contact> findContactById(
+    public ResponseEntity<Contact> getByIdPathParam(
             @Parameter(description = "Id of the contact to be obtained. Cannot be empty.", required = true)
             @PathVariable long contactId) {
-        return new ResponseEntity<Contact>(new Contact(), HttpStatus.OK);
+        return getById(contactId);
     }
+
+    @Operation(summary = "Find contact by ID", description = "Returns a single contact", tags = {"contact"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation",
+                    content = @Content(schema = @Schema(implementation = Contact.class))),
+            @ApiResponse(responseCode = "404", description = "Contact not found")})
+    @GetMapping(value = "/contacts", produces = {"application/json", "application/xml"})
+    public ResponseEntity<Contact> getByIdQueryParam(
+            @Parameter(description = "Id of the contact to be obtained. Cannot be empty.", required = true)
+            @RequestParam("id") long contactId) {
+        return getById(contactId);
+    }
+
+    @Operation(summary = "Find contact by ID", description = "Returns a single contact", tags = {"contact"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation",
+                    content = @Content(schema = @Schema(implementation = Contact.class))),
+            @ApiResponse(responseCode = "404", description = "Contact not found")})
+    @GetMapping(value = "/contacts", produces = {"application/json", "application/xml"})
+    public ResponseEntity<Contact> getByIdBodyParam(
+            @Parameter(description = "Id of the contact to be obtained. Cannot be empty.", required = true)
+            @RequestBody long contactId) {
+        return getById(contactId);
+
+    }
+
+    private ResponseEntity<Contact> getById(long id) {
+        Contact contact = contactService.findById(id);
+        if (contact == null) {
+            return new ResponseEntity(new CustomErrorType("contact with id " + id
+                    + " not found"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Contact>(contact, HttpStatus.OK);
+    }
+
+
+    // -------------------Create a User-------------------------------------------
 
     @Operation(summary = "Add a new contact", description = "", tags = {"contact"})
     @ApiResponses(value = {
@@ -54,14 +107,27 @@ public class ContactController {
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "409", description = "Contact already exists")})
     @PostMapping(value = "/contacts", consumes = {"application/json", "application/xml"})
-    public ResponseEntity<Contact> addContact(
+    public ResponseEntity<String> createByBody(
             @Parameter(description = "Contact to add. Cannot null or empty.",
                     required = true, schema = @Schema(implementation = Contact.class))
             @Valid @RequestBody Contact contact)
             throws URISyntaxException {
-
-        return new ResponseEntity<Contact>(new Contact(), HttpStatus.OK);
+        return createContact(contact);
     }
+
+
+    private ResponseEntity<String> createContact(Contact contact) {
+        if (contactService.isContactExist(contact)) {
+            return new ResponseEntity(new CustomErrorType("Unable to create. A Contact with name " +
+                    contact.getName() + " already exist."), HttpStatus.CONFLICT);
+        }
+        contactService.saveContact(contact);
+
+        HttpHeaders headers = new HttpHeaders();
+//        headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(contact.getId()).toUri());
+        return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+    }
+    // ------------------- Update a User ------------------------------------------------
 
     @Operation(summary = "Update an existing contact", description = "", tags = {"contact"})
     @ApiResponses(value = {
@@ -79,6 +145,8 @@ public class ContactController {
             @Valid @RequestBody Contact contact) {
         return ResponseEntity.ok().build();
     }
+
+    // ------------------- Delete a User-----------------------------------------
 
     @Operation(summary = "Deletes a contact", description = "", tags = {"contact"})
     @ApiResponses(value = {

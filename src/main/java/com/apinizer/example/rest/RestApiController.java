@@ -48,7 +48,7 @@ public class RestApiController {
         return getById(id);
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
     public ResponseEntity<?> getByIdBodyParam(@RequestBody long id) {
         return deleteById(id);
     }
@@ -113,7 +113,7 @@ public class RestApiController {
         return updateUser(id, user);
     }
 
-    @RequestMapping(value = "/userByBody", method = RequestMethod.PUT)
+    @RequestMapping(value = "/userByBody", method = RequestMethod.PUT, consumes = "application/json")
     public ResponseEntity<?> updateByBody(@RequestBody User user) {
         return updateUser(user.getId(), user);
     }
@@ -122,7 +122,7 @@ public class RestApiController {
         User currentUser = userService.findById(id);
 
         if (currentUser == null) {
-            return new ResponseEntity(new CustomErrorType("Unable to upate. User with id " + id + " not found."),
+            return new ResponseEntity(new CustomErrorType("Unable to update. User with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
 
