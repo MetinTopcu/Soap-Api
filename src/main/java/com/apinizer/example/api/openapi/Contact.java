@@ -1,11 +1,13 @@
 package com.apinizer.example.api.openapi;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Date;
 
 public class Contact implements Serializable {
 
@@ -23,7 +25,7 @@ public class Contact implements Serializable {
 
     @Schema(description = "Phone number of the contact.",
             example = "62482211", required = false)
-    @Pattern(regexp ="^\\+?[0-9. ()-]{7,25}$", message = "Phone number")
+    @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Phone number")
     @Size(max = 25)
     private String phone;
 
@@ -43,19 +45,36 @@ public class Contact implements Serializable {
     @Size(max = 50)
     private String address2;
 
-    @Schema(description = "Address line 3 of the contact.",
-            example = "Florida", required = false)
+    @Schema(description = "Date area",
+            example = "2020-01-01", required = false)
     @Size(max = 50)
-    private String address3;
+    private Date date;
 
     @Schema(description = "Postal code of the contact.",
             example = "32106", required = false)
     @Size(max = 20)
-    private String postalCode;
+    private Integer postalCode;
 
     @Schema(description = "Notes about the contact.",
             example = "Meet her at Spring Boot Conference", required = false)
     private String note;
+
+    public Contact(Long id, @NotBlank @Size(max = 100) String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Contact(Long id, @NotBlank @Size(max = 100) String name, @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Phone number") @Size(max = 25) String phone, @Email(message = "Email Address") @Size(max = 100) String email, @Size(max = 50) String address1, @Size(max = 50) String address2, Date date, @Size(max = 20) Integer postalCode, String note) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address1 = address1;
+        this.address2 = address2;
+        this.date = date;
+        this.postalCode = postalCode;
+        this.note = note;
+    }
 
     public Long getId() {
         return id;
@@ -105,19 +124,19 @@ public class Contact implements Serializable {
         this.address2 = address2;
     }
 
-    public String getAddress3() {
-        return address3;
+    public Date getDate() {
+        return date;
     }
 
-    public void setAddress3(String address3) {
-        this.address3 = address3;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public String getPostalCode() {
+    public Integer getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(String postalCode) {
+    public void setPostalCode(Integer postalCode) {
         this.postalCode = postalCode;
     }
 
