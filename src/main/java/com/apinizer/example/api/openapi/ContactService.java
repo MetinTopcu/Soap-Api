@@ -2,6 +2,9 @@ package com.apinizer.example.api.openapi;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -11,68 +14,67 @@ public class ContactService {
     private static final AtomicLong counter = new AtomicLong();
 
     private static List<Contact> contacts;
-/*
+
     static{
-        contacts= populateDummyUsers();
+        contacts = populateDummyContacts();
     }
 
-    public List<User> findAllUsers() {
-        return users;
+    public List<Contact> findAllContacts() {
+        return contacts;
     }
 
-    public User findById(long id) {
-        for(User user : users){
-            if(user.getId() == id){
-                return user;
+    public Contact findById(long id) {
+        for (Contact contact : contacts) {
+            if (contact.getId() == id) {
+                return contact;
             }
         }
         return null;
     }
 
-    public User findByName(String name) {
-        for(User user : users){
-            if(user.getName().equalsIgnoreCase(name)){
-                return user;
+    public Contact findByName(String name) {
+        for (Contact contact : contacts) {
+            if (contact.getName().equalsIgnoreCase(name)) {
+                return contact;
             }
         }
         return null;
     }
 
-    public void saveUser(User user) {
-        user.setId(counter.incrementAndGet());
-        users.add(user);
+    public void saveContact(Contact contact) {
+        contact.setId(counter.incrementAndGet());
+        contacts.add(contact);
     }
 
-    public void updateUser(User user) {
-        int index = users.indexOf(user);
-        users.set(index, user);
+    public void updateContact(Contact contact) {
+        int index = contacts.indexOf(contact);
+        contacts.set(index, contact);
     }
 
-    public void deleteUserById(long id) {
+    public void deleteContactById(long id) {
 
-        for (Iterator<User> iterator = users.iterator(); iterator.hasNext(); ) {
-            User user = iterator.next();
-            if (user.getId() == id) {
+        for (Iterator<Contact> iterator = contacts.iterator(); iterator.hasNext(); ) {
+            Contact contact = iterator.next();
+            if (contact.getId() == id) {
                 iterator.remove();
             }
         }
     }
 
-    public boolean isUserExist(User user) {
-        return findByName(user.getName())!=null;
+    public boolean isContactExist(Contact contact) {
+        return findByName(contact.getName()) != null;
     }
 
-    public void deleteAllUsers(){
-        users.clear();
+    public void deleteAllContacts() {
+        contacts.clear();
     }
 
-    private static List<User> populateDummyUsers(){
-        List<User> users = new ArrayList<User>();
-        users.add(new User(counter.incrementAndGet(),"Sam",30, 70000));
-        users.add(new User(counter.incrementAndGet(),"Tom",40, 50000));
-        users.add(new User(counter.incrementAndGet(),"Jerome",45, 30000));
-        users.add(new User(counter.incrementAndGet(),"Silvia",50, 40000));
-        return users;
+    private static List<Contact> populateDummyContacts() {
+        List<Contact> contacts = new ArrayList<Contact>();
+        contacts.add(new Contact(counter.incrementAndGet(), "halil", "0555 555 55 55", "a@b.com", "adres1", "adres2", new Date(), 6800, "not1"));
+        contacts.add(new Contact(counter.incrementAndGet(), "ertugrul", "0555 555 55 55", "a@b.com", "adres1", "adres2", new Date(), 6800, "not1"));
+        contacts.add(new Contact(counter.incrementAndGet(), "oguz", "0555 555 55 55", "a@b.com", "adres1", "adres2", new Date(), 6800, "not1"));
+        return contacts;
     }
-*/
+
 }

@@ -1,15 +1,14 @@
 package com.apinizer.example.api;
 
 import com.apinizer.example.api.soap.StudentRepository;
-import com.apinizer.example.config.xml.Student;
+import com.apinizer.xml.school.Student;
+import com.apinizer.xml.school.StudentDetailsRequest;
+import com.apinizer.xml.school.StudentDetailsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
-
-import com.apinizer.example.config.xml.StudentDetailsRequest;
-import com.apinizer.example.config.xml.StudentDetailsResponse;
 
 import java.util.ArrayList;
 import java.util.List;

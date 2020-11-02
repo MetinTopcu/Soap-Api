@@ -1,14 +1,13 @@
 package com.apinizer.example.api.soap;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
+import com.apinizer.xml.school.Student;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import com.apinizer.example.config.xml.Student;
+import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Component
 public class StudentRepository {
@@ -16,19 +15,19 @@ public class StudentRepository {
 
 	@PostConstruct
 	public void initData() {
-		
+
 		Student student = new Student();
 		student.setName("Apinizer");
 		student.setStandard(5);
 		student.setAddress("Demo");
 		students.put(student.getName(), student);
-		
+
 		student = new Student();
 		student.setName("Pruvasoft");
 		student.setStandard(5);
 		student.setAddress("Bilkent");
 		students.put(student.getName(), student);
-		
+
 	}
 
 	public Student findStudent(String name) {
