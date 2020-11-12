@@ -33,7 +33,7 @@ maven-package:
     - master
   stage: package
   script:
-    - ./mvnw verify -Pprod -DskipTests $MAVEN_CLI_OPTS $MAVEN_OPTS
+    - ./mvnw verify -Pprod -DskipTests # $MAVEN_CLI_OPTS $MAVEN_OPTS
 
 create-image:
   only:
