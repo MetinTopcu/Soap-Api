@@ -12,41 +12,41 @@ stages:
 variables:
   MAVEN_CLI_OPTS: '-s .m2/settings.xml --batch-mode'
   MAVEN_OPTS: '-Dmaven.repo.local=.m2/repository'
-  APP_VERSION: '1.2'
+  APP_VERSION: '1.3'
 
 before_script:
   #  Alttaki satırı her defasında yapmasına gerek yok
   - chmod +x mvnw
 
-#maven-compile:
-#  only:
-#    - pushes
-#    - master
-#  stage: build
-#  script:
-#    - echo $MAVEN_CLI_OPTS $MAVEN_OPTS
-#    - echo $MAVEN_CLI_OPTS
-#      - ./mvnw compile $MAVEN_CLI_OPTS $MAVEN_OPTS
-#
-#maven-package:
-#  only:
-#    - pushes
-#    - master
-#  stage: package
-#  script:
-#    - ./mvnw verify -Pprod -DskipTests $MAVEN_CLI_OPTS $MAVEN_OPTS
-#
-#create-image:
-#  only:
-#    - master
-#  stage: create-image
-#  before_script:
-#    - chmod +x mvnw
-#    - 'echo "APP Version: $APP_VERSION"'
-#    - docker login registry.hub.docker.com -u apinizercloud -p PrvSoft.1!
-#  script:
-#    - 'echo "Image_TAG Version: registry.hub.docker.com/apinizercloud/example-service:$APP_VERSION"'
-#    - ./mvnw package $MAVEN_CLI_OPTS $MAVEN_OPTS -Pprod jib:build -Djib.to.image=registry.hub.docker.com/apinizercloud/example-service:$APP_VERSION
+maven-compile:
+  only:
+    - pushes
+    - master
+  stage: build
+  script:
+    - echo $MAVEN_CLI_OPTS $MAVEN_OPTS
+    - echo $MAVEN_CLI_OPTS
+      - ./mvnw compile $MAVEN_CLI_OPTS $MAVEN_OPTS
+
+maven-package:
+  only:
+    - pushes
+    - master
+  stage: package
+  script:
+    - ./mvnw verify -Pprod -DskipTests $MAVEN_CLI_OPTS $MAVEN_OPTS
+
+create-image:
+  only:
+    - master
+  stage: create-image
+  before_script:
+    - chmod +x mvnw
+    - 'echo "APP Version: $APP_VERSION"'
+    - docker login registry.hub.docker.com -u apinizercloud -p PrvSoft.1!
+  script:
+    - 'echo "Image_TAG Version: registry.hub.docker.com/apinizercloud/example-service:$APP_VERSION"'
+    - ./mvnw package $MAVEN_CLI_OPTS $MAVEN_OPTS -Pprod jib:build -Djib.to.image=registry.hub.docker.com/apinizercloud/example-service:$APP_VERSION
 
 k8s-deploy:
   only:
