@@ -45,8 +45,6 @@ create-image:
     - 'export APP_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)'
     - 'echo "APP Version: $APP_VERSION"'
     - docker login registry.hub.docker.com -u apinizercloud -p PrvSoft.1!
-  dependencies:
-    - maven-package
   script:
     - 'echo "Image_TAG Version: registry.hub.docker.com/apinizercloud/example-service:$APP_VERSION"'
     - ./mvnw package -DskipTests -Pprod jib:build -pl apinizer-manager -am -Djib.to.image=registry.hub.docker.com/apinizercloud/example-service:$APP_VERSION
