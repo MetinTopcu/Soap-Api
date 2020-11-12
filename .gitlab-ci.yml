@@ -15,7 +15,7 @@ variables:
 
 before_script:
   #  Alttaki satırı her defasında yapmasına gerek yok
-  - chmod -Rf 775 *
+  - chmod +x mvnw
 
 maven-compile:
   only:
@@ -27,19 +27,20 @@ maven-compile:
     - echo $MAVEN_CLI_OPTS
       - ./mvnw compile $MAVEN_CLI_OPTS $MAVEN_OPTS
 
-maven-package:
-  only:
-    - pushes
-    - master
-  stage: package
-  script:
-    - ./mvnw verify -Pprod -DskipTests # $MAVEN_CLI_OPTS $MAVEN_OPTS
+#maven-package:
+#  only:
+#    - pushes
+#    - master
+#  stage: package
+#  script:
+#    - ./mvnw verify -Pprod -DskipTests # $MAVEN_CLI_OPTS $MAVEN_OPTS
 
 create-image:
   only:
     - master
   stage: create-image
   before_script:
+    - chmod +x mvnw
     - cd $CI_PROJECT_DIR
     - 'export APP_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)'
     - 'echo "APP Version: $APP_VERSION"'
