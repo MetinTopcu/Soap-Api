@@ -16,8 +16,6 @@ variables:
 before_script:
   #  Alttaki satırı her defasında yapmasına gerek yok
   - chmod +x mvnw
-  - ./mvnw com.github.eirslett:frontend-maven-plugin:install-node-and-npm -DnodeVersion=v10.15.3 -DnpmVersion=6.9.0 $MAVEN_CLI_OPTS $MAVEN_OPTS
-  - ./mvnw com.github.eirslett:frontend-maven-plugin:npm $MAVEN_CLI_OPTS $MAVEN_OPTS
 
 maven-compile:
   only:
