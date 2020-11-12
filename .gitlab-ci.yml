@@ -15,8 +15,7 @@ variables:
 
 before_script:
   #  Alttaki satırı her defasında yapmasına gerek yok
-  - chmod +x mvnw
-  - export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-11.0.8.10-0.el8_2.x86_64"
+  - chmod -Rf 775 *
 
 maven-compile:
   only:
