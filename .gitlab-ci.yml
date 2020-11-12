@@ -18,47 +18,47 @@ before_script:
   #  Alttaki satırı her defasında yapmasına gerek yok
   - chmod +x mvnw
 
-maven-compile:
-  only:
-    - pushes
-    - master
-  stage: build
-  script:
-    - echo $MAVEN_CLI_OPTS $MAVEN_OPTS
-    - echo $MAVEN_CLI_OPTS
-      - ./mvnw compile $MAVEN_CLI_OPTS $MAVEN_OPTS
-
-maven-package:
-  only:
-    - pushes
-    - master
-  stage: package
-  script:
-    - ./mvnw verify -Pprod -DskipTests $MAVEN_CLI_OPTS $MAVEN_OPTS
-
-create-image:
-  only:
-    - master
-  stage: create-image
-  before_script:
-    - chmod +x mvnw
-    - 'echo "APP Version: $APP_VERSION"'
-    - docker login registry.hub.docker.com -u apinizercloud -p PrvSoft.1!
-  script:
-    - 'echo "Image_TAG Version: registry.hub.docker.com/apinizercloud/example-service:$APP_VERSION"'
-    - ./mvnw package $MAVEN_CLI_OPTS $MAVEN_OPTS -Pprod jib:build -Djib.to.image=registry.hub.docker.com/apinizercloud/example-service:$APP_VERSION
+#maven-compile:
+#  only:
+#    - pushes
+#    - master
+#  stage: build
+#  script:
+#    - echo $MAVEN_CLI_OPTS $MAVEN_OPTS
+#    - echo $MAVEN_CLI_OPTS
+#      - ./mvnw compile $MAVEN_CLI_OPTS $MAVEN_OPTS
+#
+#maven-package:
+#  only:
+#    - pushes
+#    - master
+#  stage: package
+#  script:
+#    - ./mvnw verify -Pprod -DskipTests $MAVEN_CLI_OPTS $MAVEN_OPTS
+#
+#create-image:
+#  only:
+#    - master
+#  stage: create-image
+#  before_script:
+#    - chmod +x mvnw
+#    - 'echo "APP Version: $APP_VERSION"'
+#    - docker login registry.hub.docker.com -u apinizercloud -p PrvSoft.1!
+#  script:
+#    - 'echo "Image_TAG Version: registry.hub.docker.com/apinizercloud/example-service:$APP_VERSION"'
+#    - ./mvnw package $MAVEN_CLI_OPTS $MAVEN_OPTS -Pprod jib:build -Djib.to.image=registry.hub.docker.com/apinizercloud/example-service:$APP_VERSION
 
 k8s-deploy:
   only:
     - master
   stage: deploy
   dependencies:
-    - create-image
+#    - create-image
   before_script:
     - 'echo "Path:$CI_PROJECT_DIR"'
     - 'echo "APP Version: $APP_VERSION"'
   script:
-    - 'echo "Image_TAG Version: registry.hub.docker.com/apinizercloud/test-manager:$APP_VERSION"'
+    - 'echo "Image_TAG Version: registry.hub.docker.com/apinizercloud/example-service:$APP_VERSION"'
     - /home/gitlab-runner/kubectl config set-cluster k8s --server="https://5.189.184.181:6443" --insecure-skip-tls-verify=true
     - /home/gitlab-runner/kubectl config set-credentials admin --token="eyJhbGciOiJSUzI1NiIsImtpZCI6ImlFY3p2c3RleFI3VF8xUXBUZS02YzVqVGM3dm1Ddkd2eDhXZ0tKMmh3QU0ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJkZXBsb3ltZW50LWNvbnRyb2xsZXItdG9rZW4tMnQ5OHAiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGVwbG95bWVudC1jb250cm9sbGVyIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiNTU0ODY0ZDgtNDVmZS00ODgxLThlNmQtY2MxZWIzNDUwYmE4Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmUtc3lzdGVtOmRlcGxveW1lbnQtY29udHJvbGxlciJ9.SVtqjgstwzpzknCDrBW1xROdnQREKh-SVxjzKIw6zY9t1vQVqpIpj3COwo9sK83lcZ1B1FR1CRq0CDXX_t7wel4tdjiL5pvsk3OVGyNH3lKKfpPJ4Q4pXG26PSQDsjgAkAmtYyUhaCQsmeTKs-en9MumFrl4DMfMmUB1kA1it0wEYsMbupR9kQqk5RZQHSgxfj44QCERaqV11PU0TMZI1uv0bsejhIePhtHZ-4hnFuKrvfinCdkKsHMhP291Jf9G642Jy6s0UwopOr8M1woJeqMtR4cMNE0R4QC7Xou3er4WFyUJNxQMyTBFqorYnlH083xW3L7hF0TcGNdtSNWKFw"
     - /home/gitlab-runner/kubectl config set-context default --cluster=k8s --user=admin
