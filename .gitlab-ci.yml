@@ -46,7 +46,7 @@ create-image:
     - docker login registry.hub.docker.com -u apinizercloud -p PrvSoft.1!
   script:
     - 'echo "Image_TAG Version: registry.hub.docker.com/apinizercloud/example-service:$APP_VERSION"'
-    - ./mvnw package -DskipTests  $MAVEN_CLI_OPTS $MAVEN_OPTS -Pprod jib:build -pl example-services -am -Djib.to.image=registry.hub.docker.com/apinizercloud/example-service:$APP_VERSION
+    - ./mvnw package $MAVEN_CLI_OPTS $MAVEN_OPTS -Pprod jib:build -Djib.to.image=registry.hub.docker.com/apinizercloud/example-service:$APP_VERSION
 
 k8s-deploy:
   only:
