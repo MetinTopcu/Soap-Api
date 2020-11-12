@@ -41,7 +41,6 @@ create-image:
   stage: create-image
   before_script:
     - chmod +x mvnw
-    - cd $CI_PROJECT_DIR
     - 'export APP_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)'
     - 'echo "APP Version: $APP_VERSION"'
     - docker login registry.hub.docker.com -u apinizercloud -p PrvSoft.1!
