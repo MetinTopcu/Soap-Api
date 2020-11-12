@@ -16,6 +16,7 @@ variables:
 before_script:
   #  Alttaki satırı her defasında yapmasına gerek yok
   - chmod +x mvnw
+  - 'export APP_VERSION=1.2'
 
 maven-compile:
   only:
@@ -41,7 +42,6 @@ create-image:
   stage: create-image
   before_script:
     - chmod +x mvnw
-    - 'export APP_VERSION=$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout)'
     - 'echo "APP Version: $APP_VERSION"'
     - docker login registry.hub.docker.com -u apinizercloud -p PrvSoft.1!
   script:
