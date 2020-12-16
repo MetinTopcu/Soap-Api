@@ -18,13 +18,13 @@ public class TestApiResource {
     // ---------------- HELLO APIs ----------------
     private static int i = 0;
 
-    @GetMapping("/hello")
+    @GetMapping("/test/hello")
     public ResponseEntity<String> hello() {
 
         return ResponseEntity.ok("OK " + (i++));
     }
 
-    @GetMapping("/helloWait")
+    @GetMapping("/test/helloWait")
     public ResponseEntity<String> helloWait(@RequestParam("waitTimeInMillis") long millis) {
         try {
             Thread.sleep(millis);

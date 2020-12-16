@@ -1,8 +1,6 @@
 package com.apinizer.example.api;
 
 
-import java.util.List;
-
 import com.apinizer.example.api.rest.CustomErrorType;
 import com.apinizer.example.api.rest.User;
 import com.apinizer.example.api.rest.UserService;
@@ -15,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class UserApiResource {
@@ -24,24 +24,7 @@ public class UserApiResource {
     @Autowired
     UserService userService; //Service which will do all data retrieval/manipulation work
 
-    // ---------------- HELLO APIs ----------------
-    private static int i = 0;
 
-    @GetMapping("/test/hello")
-    public ResponseEntity<String> hello() {
-
-        return ResponseEntity.ok("OK " + (i++));
-    }
-
-    @GetMapping("/test/helloWait")
-    public ResponseEntity<String> helloWait(@RequestParam("waitTimeInMillis") long millis) {
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return ResponseEntity.ok("OK");
-    }
 
 
 
