@@ -1,0 +1,31 @@
+piVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-service
+  namespace: example-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: example-service
+      version: 'v1'
+  template:
+    metadata:
+      labels:
+        app: example-service
+        version: 'v1'
+    spec:
+      containers:
+        - name: example-service
+          image: apinizercloud/example-service:1.1
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: '1Gi'
+              cpu: '1'
+            limits:
+              memory: '1Gi'
+              cpu: '1'
+          ports:
+            - name: http
+              containerPort: 8080
