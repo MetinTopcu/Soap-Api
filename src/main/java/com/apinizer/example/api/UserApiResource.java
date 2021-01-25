@@ -4,6 +4,7 @@ package com.apinizer.example.api;
 import com.apinizer.example.api.rest.CustomErrorType;
 import com.apinizer.example.api.rest.User;
 import com.apinizer.example.api.rest.UserService;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -23,9 +25,6 @@ public class UserApiResource {
 
     @Autowired
     UserService userService; //Service which will do all data retrieval/manipulation work
-
-
-
 
 
     // -------------------Retrieve All Users---------------------------------------------
@@ -66,6 +65,25 @@ public class UserApiResource {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
+    @GetMapping("/getUserByUserInQueryParam")
+    @ResponseBody
+    public ResponseEntity<?> getUserByUserInQueryParam(@RequestParam("user") String userStr, @RequestParam("ğüş") String gus) {
+        logger.info("Fetching User with body {}", userStr);
+        User user = null;
+        try {
+            user = new ObjectMapper().readValue(userStr, User.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity(new CustomErrorType("User not found"), HttpStatus.NOT_FOUND);
+        }
+
+        user = userService.findById(user.getId());
+        if (user == null) {
+            return new ResponseEntity(new CustomErrorType("User not found"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
     // -------------------Create a User-------------------------------------------
 
     @RequestMapping(value = "/user/", method = RequestMethod.POST)
@@ -75,7 +93,7 @@ public class UserApiResource {
         if (userService.isUserExist(user)) {
             logger.error("Unable to create. A User with name {} already exist", user.getName());
             return new ResponseEntity(new CustomErrorType("Unable to create. A User with name " +
-                    user.getName() + " already exist."),HttpStatus.CONFLICT);
+                    user.getName() + " already exist."), HttpStatus.CONFLICT);
         }
         userService.saveUser(user);
 
