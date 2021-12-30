@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Base64;
 import java.util.Map;
 
 @RestController
@@ -26,6 +27,17 @@ public class AuthenticationApiResource {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(RESPONSE_FAIL);
     }
+
+
+    @GetMapping(value = "/apinizer/convertBase64", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<String> convertBase64(HttpServletRequest request) {
+        String authz = request.getHeader("Token");
+        String[] split_string = authz.split("\\.");
+        String base64EncodedBody = split_string[1];
+        String jwtTokenBody = new String(Base64.getDecoder().decode(base64EncodedBody));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(jwtTokenBody);
+    }
+
 
     @GetMapping(value = "/auth/authenticateWithQueryParam", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> authenticateWithQueryParam(@RequestParam("username") String username,

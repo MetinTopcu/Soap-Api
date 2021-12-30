@@ -27,6 +27,26 @@ public class FileRestResource {
     private static final String RESPONSE_FAIL = "{\"result\":\"FAIL\" }";
 
 
+    @PostMapping(value = "/test/readFileBotas")
+    public ResponseEntity<String> readFileBotas() {
+
+
+        String filePath = "C:\\Users\\MHY\\Desktop\\response.xml";
+        byte[] resp = null;
+        try {
+
+            Path path = Paths.get(filePath);
+            resp = Files.readAllBytes(path);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(RESPONSE_FAIL);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(new String(resp));
+    }
+
+
     // ---------------- FILE OPERATION ----------------
     @PostMapping(value = "/test/fileUpload", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> fileUpload(@RequestParam("file") MultipartFile file) {
