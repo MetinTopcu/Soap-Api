@@ -1,6 +1,7 @@
 package com.apinizer.example.api;
 
 import com.apinizer.example.api.rest.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +13,9 @@ import java.util.Map;
 
 @RestController
 public class AuthenticationApiResource {
-    private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
-    private static final String RESPONSE_SUCCESS = "{\"result\":\"SUCCESS\",\"username\":\"username\",\"roles\":\"role1,role2,role3\" }";
+    private static final String USERNAME = "user1";
+    private static final String PASSWORD = "P@ssW@rd!";
+    private static final String RESPONSE_SUCCESS = "{\"result\":\"SUCCESS\",\"username\":\"user1\",\"roles\":[\"account\",\"finance\",\"hr\"] }";
     private static final String RESPONSE_FAIL = "{\"result\":\"FAIL\" }";
 
 
@@ -23,6 +24,19 @@ public class AuthenticationApiResource {
         String usernameParam = request.getHeader("username");
         String passwordParam = request.getHeader("password");
         if (USERNAME.equals(usernameParam) && PASSWORD.equals(passwordParam)) {
+            return ResponseEntity.ok(RESPONSE_SUCCESS);
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(RESPONSE_FAIL);
+    }
+
+    @GetMapping(value = "/auth/authenticateWithBase64", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<String> authenticateWithBase64(HttpServletRequest request) {
+        String tokenStr = request.getHeader("Token");
+        tokenStr = StringUtils.removeStart(tokenStr, "Basic ");
+        tokenStr = StringUtils.removeStart(tokenStr, "Bearer ");
+        String tokenArr[] = new String(Base64.getDecoder().decode(tokenStr)).split(":");
+
+        if (USERNAME.equals(tokenArr[0]) && PASSWORD.equals(tokenArr[1])) {
             return ResponseEntity.ok(RESPONSE_SUCCESS);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(RESPONSE_FAIL);
