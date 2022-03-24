@@ -12,6 +12,8 @@ import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 
+import java.util.Properties;
+
 @EnableWs
 @Configuration
 public class Config extends WsConfigurerAdapter {
@@ -30,6 +32,12 @@ public class Config extends WsConfigurerAdapter {
 		wsdl11Definition.setLocationUri("/service/student-details");
 		wsdl11Definition.setTargetNamespace("http://www.apinizer.com/xml/school");
 		wsdl11Definition.setSchema(schema);
+
+
+		Properties actions = new Properties();
+		actions.setProperty("StudentDetails", "http://www.apinizer.com/xml/school/getStudentList");
+
+		wsdl11Definition.setSoapActions(actions);
 		return wsdl11Definition;
 	}
 
